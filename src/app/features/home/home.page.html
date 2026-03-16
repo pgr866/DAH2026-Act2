@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Buscador de Películas</ion-title>
+    <ion-buttons slot="end">
+      <ion-chip>
+        <ion-icon name="heart"></ion-icon>
+        <ion-label>{{ movieService.favoritesCount() }}</ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="centered-content ion-padding-top">
+  <ion-searchbar (ionInput)="movieService.searchMovies($event.detail.value!)" debounce="500"></ion-searchbar>
+  <ion-list class="ion-margin-top">
+    @for (movie of movieService.movies(); track movie.imdbID) {
+    <ion-item [routerLink]="['/details', movie.imdbID]">
+      <ion-label>
+        <h2>{{ movie.Title }}</h2>
+        <p>{{ movie.Year }}</p>
+      </ion-label>
+    </ion-item>
+    } @empty {
+    <ion-item>Introduzca un término de búsqueda para comenzar.</ion-item>
+    }
+  </ion-list>
+  </div>
+</ion-content>

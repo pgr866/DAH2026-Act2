@@ -1,0 +1,7 @@
+{
+  "name": "dah2026",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

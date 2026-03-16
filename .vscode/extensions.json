@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "Webnative.webnative",
+    "angular.ng-template",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "github.copilot-chat"
+  ]
+}

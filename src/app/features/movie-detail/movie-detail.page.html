@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Película</ion-title>
+    <ion-buttons slot="end">
+      <ion-chip>
+        <ion-icon name="heart"></ion-icon>
+        <ion-label>{{ movieService.favoritesCount() }}</ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (movieService.currentMovie(); as movie) {
+  @if (movie.Poster !== 'N/A') {
+  <div class="movie-poster-container">
+    <img [src]="movie.Poster" [alt]="movie.Title" />
+  </div>
+  }
+
+  <ion-card class="centered-content">
+    <ion-card-header>
+      <div class="ion-display-flex ion-justify-content-between ion-align-items-center">
+        <ion-card-title>{{ movie.Title }}</ion-card-title>
+        <div class="ion-display-flex ion-align-items-center">
+          <ion-button fill="clear" color="danger" (click)="movieService.toggleFavorite(movie)" class="fav-button">
+          <ion-icon [name]="movieService.isFavorite(movie.imdbID)() ? 'heart' : 'heart-outline'"></ion-icon>
+          </ion-button>
+          @if (movie.imdbRating !== 'N/A') { <ion-badge color="warning" class="font-size-1">{{ movie.imdbRating }}</ion-badge> }
+        </div>
+      </div>
+      <ion-card-subtitle>
+        {{ movie.Year }} @if (movie.Rated !== 'N/A') { · {{ movie.Rated }} } @if (movie.Runtime !== 'N/A') { · {{ movie.Runtime }} }
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      @if (movie.Plot !== 'N/A') { <p class="font-size-1"> {{ movie.Plot }}</p> }
+
+      <h3 class="subtitle">Producción</h3>
+      <ion-list lines="full">
+        @if (movie.Director !== 'N/A') { <ion-item><ion-label><strong>Director:</strong> {{ movie.Director }}</ion-label></ion-item> }
+        @if (movie.Writer !== 'N/A') { <ion-item><ion-label><strong>Escritores:</strong> {{ movie.Writer }}</ion-label></ion-item> }
+        @if (movie.Actors !== 'N/A') { <ion-item><ion-label><strong>Actores:</strong> {{ movie.Actors }}</ion-label></ion-item> }
+        @if (movie.Production !== 'N/A') { <ion-item><ion-label><strong>Compañía:</strong> {{ movie.Production }}</ion-label></ion-item> }
+        @if (movie.Country !== 'N/A') { <ion-item><ion-label><strong>País:</strong> {{ movie.Country }}</ion-label></ion-item> }
+        @if (movie.Language !== 'N/A') { <ion-item><ion-label><strong>Idioma:</strong> {{ movie.Language }}</ion-label></ion-item> }
+      </ion-list>
+
+      <h3 class="subtitle">Detalles y Lanzamiento</h3>
+      <ion-list lines="full">
+        @if (movie.Genre !== 'N/A') { <ion-item><ion-label><strong>Género:</strong> {{ movie.Genre }}</ion-label></ion-item> }
+        @if (movie.Released !== 'N/A') { <ion-item><ion-label><strong>Fecha de estreno:</strong> {{ movie.Released }}</ion-label></ion-item> }
+        @if (movie.BoxOffice !== 'N/A') { <ion-item><ion-label><strong>Box Office:</strong> {{ movie.BoxOffice }}</ion-label></ion-item> }
+        @if (movie.Website !== 'N/A') { <ion-item><ion-label><strong>Sitio Web:</strong> {{ movie.Website }}</ion-label></ion-item> }
+      </ion-list>
+
+      <h3 class="subtitle">Puntuaciones y Premios</h3>
+      <ion-list lines="full">
+        @if (movie.Awards !== 'N/A') { <ion-item><ion-label><strong>Premios:</strong> {{ movie.Awards }}</ion-label></ion-item> }
+        @if (movie.Metascore !== 'N/A') { <ion-item><ion-label><strong>Metascore:</strong> {{ movie.Metascore }}</ion-label></ion-item> }
+        @if (movie.imdbVotes !== 'N/A') { <ion-item><ion-label><strong>Votos IMDb:</strong> {{ movie.imdbVotes }}</ion-label></ion-item> }
+        @for (rating of movie.Ratings; track rating.Source) {
+        @if (rating.Value !== 'N/A') {
+        <ion-item>
+          <ion-label>
+            <strong>{{ rating.Source }}:</strong> {{ rating.Value }}
+          </ion-label>
+        </ion-item>
+        }
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  } @else {
+  <ion-spinner class="centered-content" name="crescent"></ion-spinner>
+  }
+</ion-content>
